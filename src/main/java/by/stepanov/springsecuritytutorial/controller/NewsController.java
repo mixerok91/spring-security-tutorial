@@ -91,7 +91,7 @@ public class NewsController {
         if (!parameterNames.isEmpty()){
             for (String param:
                  parameterNames) {
-                newsService.deleteNews(Long.valueOf(param));
+                newsService.deleteNews(Long.parseLong(param));
             }
         }
         return "redirect:/news/list";
