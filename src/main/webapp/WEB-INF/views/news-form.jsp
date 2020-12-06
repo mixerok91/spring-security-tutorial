@@ -20,10 +20,9 @@
         </c:if>
     </div>
 
-    <div class="media-body">
+    <div>
         <form:form action="saveNews" modelAttribute="news" method="POST">
             <form:hidden path="id" />
-
             <table>
                 <tbody>
                     <tr>

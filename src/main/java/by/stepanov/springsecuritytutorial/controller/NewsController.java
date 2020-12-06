@@ -2,11 +2,11 @@ package by.stepanov.springsecuritytutorial.controller;
 
 import by.stepanov.springsecuritytutorial.model.News;
 import by.stepanov.springsecuritytutorial.service.NewsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,11 +19,14 @@ import java.util.List;
 @RequestMapping("/news")
 public class NewsController {
 
-    @Autowired
-    private NewsService newsService;
+    private final NewsService newsService;
+
+    public NewsController(NewsService newsService) {
+        this.newsService = newsService;
+    }
 
     @GetMapping("/list")
-    public String getNewsList(Model model, Authentication authentication, HttpSession httpSession){
+    public ModelAndView getNewsList(ModelAndView modelAndView, Authentication authentication, HttpSession httpSession){
 
         if (authentication != null){
             if (authentication.getAuthorities().size() > 1){
@@ -34,19 +37,19 @@ public class NewsController {
         }
 
         List<News> newsList = newsService.getNewsList();
-        model.addAttribute("newsList", newsList);
-
-        return "/news-list";
+        modelAndView.addObject("newsList", newsList);
+        modelAndView.setViewName("/news-list");
+        return modelAndView;
     }
 
     @GetMapping("/showFormForAdd")
-    public String showFormForAdd(Model model){
+    public ModelAndView showFormForAdd(ModelAndView model){
 
         News news = new News();
         news.setDate(LocalDateTime.now());
-        model.addAttribute("news", news);
-
-        return "/news-form";
+        model.addObject("news", news);
+        model.setViewName("/news-form");
+        return model;
     }
 
     @PostMapping("/saveNews")
@@ -58,12 +61,12 @@ public class NewsController {
     }
 
     @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("newsId") int newsId, Model model) {
+    public ModelAndView showFormForUpdate(@RequestParam("newsId") int newsId, ModelAndView model) {
 
         News news = newsService.getNews(newsId);
-        model.addAttribute("news", news);
-
-        return "/news-form";
+        model.addObject("news", news);
+        model.setViewName("/news-form");
+        return model;
     }
 
     @GetMapping("/deleteOneNews")
@@ -75,12 +78,12 @@ public class NewsController {
     }
 
     @GetMapping("/showOneNews")
-    public String showOneNews(@RequestParam("newsId") int newsId, Model model) {
+    public ModelAndView showOneNews(@RequestParam("newsId") int newsId, ModelAndView model) {
 
         News news = newsService.getNews(newsId);
-        model.addAttribute("news", news);
-
-        return "/show-news";
+        model.addObject("news", news);
+        model.setViewName("/show-news");
+        return model;
     }
 
     @GetMapping("/deleteFewNews")

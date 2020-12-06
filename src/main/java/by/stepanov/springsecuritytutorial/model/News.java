@@ -76,20 +76,6 @@ public class News {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        News news = (News) o;
-
-        if (id != news.id) return false;
-        if (title != null ? !title.equals(news.title) : news.title != null) return false;
-        if (date != null ? !date.equals(news.date) : news.date != null) return false;
-        if (brief != null ? !brief.equals(news.brief) : news.brief != null) return false;
-        return text != null ? text.equals(news.text) : news.text == null;
-    }
-
-    @Override
     public String toString() {
         return "News{" +
                 "id=" + id +

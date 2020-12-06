@@ -74,7 +74,7 @@
         </div>
         <br>
     </c:forEach>
-        <c:if test="${sessionScope.isAdmin == true}">
+        <c:if test="${sessionScope.isAdmin == true && newsList.size()>0}">
             <button type="submit">Delete checked news</button>
         </c:if>
     </form>

@@ -4,45 +4,40 @@ import by.stepanov.springsecuritytutorial.model.News;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class NewsDAOImpl implements NewsDAO{
+public class NewsDAOImpl implements NewsDAO {
 
-    @Autowired
-    SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    public NewsDAOImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public List<News> findAll() {
-        // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        // create a query  ... sort by last name
         Query<News> theQuery =
-                currentSession.createQuery("from News order by date DESC",
-                        News.class);
+                currentSession.createQuery(NewsQuery.SELECT_ALL_NEWS, News.class);
 
-        // execute query and get result list
-        List<News> newsList = theQuery.getResultList();
-
-        // return the results
-        return newsList;
+        return theQuery.getResultList();
     }
 
     @Override
     public News getOne(long newsId) {
+
         Session currentSession = sessionFactory.getCurrentSession();
 
-        News news = currentSession.get(News.class, newsId);
-
-        return news;
+        return currentSession.get(News.class, newsId);
     }
 
     @Override
     public void save(News news) {
+
         Session currentSession = sessionFactory.getCurrentSession();
 
         currentSession.saveOrUpdate(news);
@@ -52,9 +47,14 @@ public class NewsDAOImpl implements NewsDAO{
     public void deleteById(long newsId) {
         Session currentSession = sessionFactory.getCurrentSession();
 
-        Query query = currentSession.createQuery("delete from News where id=:newsId");
+        Query query = currentSession.createQuery(NewsQuery.DELETE_NEWS_BY_ID);
         query.setParameter("newsId", newsId);
 
         query.executeUpdate();
+    }
+
+    private static class NewsQuery {
+        private static final String SELECT_ALL_NEWS = "from News order by date DESC";
+        private static final String DELETE_NEWS_BY_ID = "delete from News where id=:newsId";
     }
 }
