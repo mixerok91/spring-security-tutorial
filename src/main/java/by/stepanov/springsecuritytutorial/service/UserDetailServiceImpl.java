@@ -3,7 +3,6 @@ package by.stepanov.springsecuritytutorial.service;
 import by.stepanov.springsecuritytutorial.dao.UserDAO;
 import by.stepanov.springsecuritytutorial.model.Role;
 import by.stepanov.springsecuritytutorial.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +15,9 @@ import java.util.Set;
 
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
-    @Autowired
-    public void setUserDAO(UserDAO userDAO) {
+    public UserDetailServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 

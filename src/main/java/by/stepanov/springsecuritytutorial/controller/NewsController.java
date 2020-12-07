@@ -4,7 +4,6 @@ import by.stepanov.springsecuritytutorial.model.News;
 import by.stepanov.springsecuritytutorial.service.NewsService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +25,7 @@ public class NewsController {
     }
 
     @GetMapping("/list")
-    public ModelAndView getNewsList(ModelAndView modelAndView, Authentication authentication, HttpSession httpSession){
+    public ModelAndView getNewsList(ModelAndView model, Authentication authentication, HttpSession httpSession){
 
         if (authentication != null){
             if (authentication.getAuthorities().size() > 1){
@@ -37,9 +36,9 @@ public class NewsController {
         }
 
         List<News> newsList = newsService.getNewsList();
-        modelAndView.addObject("newsList", newsList);
-        modelAndView.setViewName("/news-list");
-        return modelAndView;
+        model.addObject("newsList", newsList);
+        model.setViewName("/news-list");
+        return model;
     }
 
     @GetMapping("/showFormForAdd")

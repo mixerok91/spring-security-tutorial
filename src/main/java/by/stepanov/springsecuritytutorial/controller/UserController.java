@@ -4,7 +4,6 @@ import by.stepanov.springsecuritytutorial.model.User;
 import by.stepanov.springsecuritytutorial.service.SecurityService;
 import by.stepanov.springsecuritytutorial.service.UserService;
 import by.stepanov.springsecuritytutorial.validator.UserValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,16 +18,9 @@ public class UserController {
     private SecurityService securityService;
     private UserValidator userValidator;
 
-    @Autowired
-    public void setUserService(UserService userService) {
+    public UserController(UserService userService, SecurityService securityService, UserValidator userValidator) {
         this.userService = userService;
-    }
-    @Autowired
-    public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
-    }
-    @Autowired
-    public void setUserValidator(UserValidator userValidator) {
         this.userValidator = userValidator;
     }
 
