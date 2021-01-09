@@ -1,1 +1,1 @@
-Training Project with: Maven, Spring MVC, Spring Security, Hibernate, MySQL
+Training Project with: Maven, Spring MVC, Spring Security, Hibernate, MySQL, JSP, JSTL.
